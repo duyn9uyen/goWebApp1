@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<title>{{.PageTitle}}</title>
+</head>
+
+<script type='text/javascript'>
+ $(document).ready(function() {
+   $('input[name=animalselect]').change(function(){
+     $('form').submit();
+   });
+});
+</script>
+<body>
+
+<text>
+  <strong>
+      MyPageVariables.Name:
+  </strong>
+    {{.Name}}  
+</text>
+
+
+  {{with $1:=.PageRadioButtons}}
+  <p> Which do you prefer</p>
+
+    <!-- The html in between `with $1:=.PageRadioButtons` and `end` will only display if the template is parsed with a variable called PageRadioButtons. -->
+    <!-- variables in templates are prefixed by $ -->
+    <form action="/selected" method="post">
+         {{range $1}}
+           <input type="radio" name={{.Name}} value={{.Value}} {{if .IsDisabled}} disabled=true {{end}} {{if .IsChecked}}checked{{end}}> {{.Text}}
+         {{end}}
+    </form>
+  {{end}}
+
+  {{with $2:=.Answer}}
+    <p>Your answer is {{$2}}</p>
+  {{end}}
+
+</body>
+</html>
